@@ -1,38 +1,269 @@
+/* src/App.css */
+
+/* --- Define Reddit-like Colors --- */
+:root {
+  --reddit-blue: #0079D3;
+  --reddit-blue-hover: #1484D6;
+  --reddit-grey-bg: #DAE0E6;
+  --reddit-border: #ccc;
+  --reddit-text-dark: #1c1c1c;
+  --reddit-text-light: #787c7e;
+  --reddit-white: #FFFFFF;
+  --input-bg: #f6f7f8;
+}
+
+/* --- Main App Layout --- */
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+  text-align: left;
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  /* Change to white header with shadow */
+  background-color: var(--reddit-white);
+  padding: 10px 20px;
+  color: var(--reddit-text-dark);
+  text-align: left;
+  border-bottom: 1px solid var(--reddit-border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  
+  /* Keep flex for logout button */
+  position: relative; 
+  display: flex;
+  justify-content: flex-start; /* Align left */
+  align-items: center;
+}
+
+.App-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--reddit-blue); /* Make "Forum" text blue */
+  padding-left: 20px;
+}
+
+.main-container {
+  max-width: 800px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+/* --- Card Styles for Forms & Posts --- */
+.form-section,
+.post-item {
+  background: var(--reddit-white);
+  border: 1px solid var(--reddit-border);
+  border-radius: 4px;
+  padding: 16px;
+  margin-bottom: 10px; /* Tighter spacing */
+  box-shadow: none; /* Remove old shadow */
+}
+
+.form-section:hover,
+.post-item:hover {
+  border-color: #898989; /* Subtle hover border */
+}
+
+.form-section h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 1.25rem;
+  color: var(--reddit-text-dark);
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+}
+
+.form-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+/* --- Input Styles --- */
+input[type="text"],
+input[type="password"],
+div[style*="margin-top: 8px"] > input[placeholder="Write a reply"] {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid var(--reddit-border);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  background-color: var(--input-bg) !important;
+  font-family: inherit;
+  min-width: 150px;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+div[style*="margin-top: 8px"] > input[placeholder="Write a reply"]:focus {
+  outline: none;
+  border-color: var(--reddit-blue);
+  background-color: var(--reddit-white) !important;
+}
+
+
+/* --- Button Styles --- */
+
+/* General Button Reset */
+button {
+  font-family: inherit;
+  font-weight: 700;
+  border-radius: 999px; /* Pill shape */
+  cursor: pointer;
+  font-size: 0.875rem;
+  padding: 8px 16px;
+  text-align: center;
+  transition: background-color 0.1s;
+  border: 1px solid transparent;
+}
+
+/* Primary Buttons (Blue) */
+.form-row button,
+.form-section button[type="submit"],
+div[style*="margin-top: 8px"] > button[disabled=""], /* Targets reply button */
+div[style*="margin-top: 8px"] > button:not([disabled]) {
+  background-color: var(--reddit-blue);
+  color: var(--reddit-white);
+  border-color: var(--reddit-blue);
+}
+.form-row button:hover:not(:disabled),
+.form-section button[type="submit"]:hover:not(:disabled),
+div[style*="margin-top: 8px"] > button:hover:not(:disabled),
+.logout-button:hover {
+  background-color: var(--reddit-blue-hover);
+}
+
+/* Logout Button */
+.logout-button {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 4px 16px; /* Smaller padding */
+  font-size: 0.875rem;
+  background-color: var(--reddit-blue);
+  color: var(--reddit-white);
+  border-color: var(--reddit-blue);
+}
+
+/* Secondary/Text Buttons (Show raw, Delete) */
+.post-item div[style*="margin-top: 8"] > button {
+  background-color: transparent;
+  color: var(--reddit-text-light);
+  font-weight: 700;
+  padding: 4px 8px; /* Make them smaller */
+  font-size: 0.75rem !important; /* Override inline style */
+  margin-left: 0 !important; /* Override inline style */
+  margin-right: 8px;
+}
+.post-item div[style*="margin-top: 8"] > button:hover:not(:disabled) {
+  background-color: var(--reddit-grey-bg);
+}
+
+/* Refresh Button */
+.refresh-button {
+  background-color: transparent;
+  color: var(--reddit-text-light);
+  border: 1px solid var(--reddit-border);
+  font-weight: 700;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+}
+.refresh-button:hover:not(:disabled) {
+  background-color: #e2e6e9;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
+/* --- Post Item Specifics --- */
+.post-item h3 {
+  margin: 0 0 8px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--reddit-text-dark);
+}
+.post-meta {
+  font-size: 0.75rem; /* 12px */
+  color: var(--reddit-text-light);
+  margin-bottom: 8px;
+}
+.post-body {
+  white-space: pre-wrap;
+  line-height: 1.5;
+  font-size: 0.9rem;
+}
+
+/* --- Filter/Control Styles --- */
+.forum-controls {
   display: flex;
   flex-direction: column;
+  gap: 12px;
+}
+.search-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.forum-controls .search-input {
+  flex: 1;
+  min-width: 200px;
+}
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+}
+
+
+/* --- Utility & Status Messages --- */
+.status-message {
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+.error-message {
+  background-color: #ffebee;
+  color: #c62828;
+  border: 1px solid #c62828;
+}
+.success-message pre {
+  white-space: pre-wrap;
+  background: #f0f0f0;
+  padding: 8px;
+  border-radius: 4px;
+  margin-top: 8px;
+}
+
+/* --- Pagination --- */
+.pagination {
+  display: flex;
+  gap: 8px;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  margin-top: 24px;
+  padding: 16px;
 }
-
-.App-link {
-  color: #61dafb;
+/* Style pagination buttons like secondary buttons */
+.pagination button {
+  background-color: transparent;
+  color: var(--reddit-text-light);
+  border: 1px solid var(--reddit-border);
+  font-weight: 700;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.pagination button:hover:not(:disabled) {
+  background-color: #e2e6e9;
+}
+.pagination span {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--reddit-text-light);
 }
